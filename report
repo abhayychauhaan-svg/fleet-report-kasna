@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PPAP B-4 Kasna – Daily Report</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;padding:10px;min-height:100vh}
+.topcard{background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:10px;border:1px solid #e0e0e0}
+.topcard h1{font-size:17px;font-weight:700;color:#111}
+.topcard .sub{font-size:12px;color:#888;margin-top:3px}
+.pbar-bg{height:6px;background:#eee;border-radius:4px;margin-top:12px;overflow:hidden}
+.pbar-fill{height:6px;background:#1a6bbf;border-radius:4px;width:0%;transition:width 0.3s}
+.plbl{font-size:11px;color:#999;text-align:right;margin-top:4px}
+.stats3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.sbox{background:#fff;border-radius:10px;padding:10px 6px;text-align:center;border:1px solid #e0e0e0}
+.sbox .val{font-size:24px;font-weight:700;display:block}
+.sbox .lbl{font-size:11px;color:#888;margin-top:2px}
+.sec-lbl{font-size:11px;font-weight:700;color:#aaa;letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
+.vc{background:#fff;border:1.5px solid #e0e0e0;border-radius:14px;padding:13px;margin-bottom:8px}
+.vc.ok{border-color:#5cb85c}
+.vc.bad{border-color:#d9534f}
+.vc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.vnum{font-size:14px;font-weight:700;font-family:'Courier New',monospace;color:#111;letter-spacing:0.04em}
+.vidx{font-size:11px;color:#ccc;font-weight:600}
+.btn-row{display:flex;gap:7px}
+.tbtn{flex:1;padding:10px 4px;text-align:center;font-size:13px;font-weight:600;border:1.5px solid #ddd;border-radius:9px;cursor:pointer;background:#f7f7f7;color:#999;-webkit-tap-highlight-color:transparent;user-select:none}
+.tbtn.run{background:#e8f8e0;color:#2d7a10;border-color:#6abf3a}
+.tbtn.nope{background:#fceaea;color:#c0392b;border-color:#e07070}
+.reasons-box{display:none;margin-top:10px}
+.reasons-box.open{display:block}
+.rlbl{font-size:11px;color:#999;margin-bottom:6px}
+.rtags{display:flex;flex-wrap:wrap;gap:6px}
+.rtag{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #ddd;cursor:pointer;color:#777;background:#f5f5f5;-webkit-tap-highlight-color:transparent;user-select:none}
+.rtag.on{background:#fceaea;color:#c0392b;border-color:#e07070;font-weight:700}
+.note-ta{width:100%;margin-top:9px;padding:8px 10px;border:1px solid #ddd;border-radius:9px;font-size:13px;font-family:inherit;resize:none;background:#fafafa;color:#333}
+.sub-btn{width:100%;padding:14px;background:#1a6bbf;color:#fff;border:none;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px}
+.sub-btn:disabled{background:#ccc;cursor:default}
+.err-box{background:#fceaea;border-radius:10px;padding:12px;font-size:13px;color:#c0392b;margin-top:8px;display:none;text-align:center}
+.done-card{background:#e8f8e0;border-radius:14px;padding:22px 16px;text-align:center;margin-bottom:12px}
+.done-card .ico{font-size:48px;display:block;margin-bottom:8px}
+.done-card h2{font-size:18px;font-weight:700;color:#2d7a10}
+.done-card p{font-size:13px;color:#3a8a18;margin-top:6px;line-height:1.6}
+.stats2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.rcpt{background:#fff;border:1px solid #e0e0e0;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #f0f0f0}
+.rrow:last-child{border-bottom:none}
+.rnum{font-size:12px;font-weight:700;font-family:'Courier New',monospace;color:#111}
+.rright{display:flex;align-items:center;gap:7px}
+.rreason{font-size:11px;color:#aaa}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700}
+.badge.g{background:#e8f8e0;color:#2d7a10}
+.badge.r{background:#fceaea;color:#c0392b}
+.edit-btn{width:100%;padding:13px;background:#f0f0f0;color:#555;border:none;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,0.5);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:-3px;margin-right:6px}
+</style>
+</head>
+<body>
+
+<div class="topcard">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div>
+      <h1>PPAP B-4 Kasna</h1>
+      <div class="sub">Supervisor: Golu Ji &nbsp;·&nbsp; Flexible &nbsp;·&nbsp; <span id="dt"></span></div>
+    </div>
+    <div style="font-size:12px;color:#aaa;text-align:right;line-height:1.8">15<br>vehicles</div>
+  </div>
+  <div class="pbar-bg"><div class="pbar-fill" id="pbar"></div></div>
+  <div class="plbl" id="plbl">0 of 15 marked</div>
+</div>
+
+<div id="form-view">
+  <div class="stats3">
+    <div class="sbox"><span class="val" id="cnt-run" style="color:#2d7a10">0</span><div class="lbl">Running</div></div>
+    <div class="sbox"><span class="val" id="cnt-no" style="color:#c0392b">0</span><div class="lbl">Not running</div></div>
+    <div class="sbox"><span class="val" id="cnt-left" style="color:#1a6bbf">15</span><div class="lbl">Pending</div></div>
+  </div>
+  <div class="sec-lbl">Mark each vehicle</div>
+  <div id="vlist"></div>
+  <div class="err-box" id="err-box">Submission failed. Check internet and try again.</div>
+  <button class="sub-btn" id="subbtn" disabled onclick="doSubmit()">Submit report to manager</button>
+</div>
+
+<div id="done-view" style="display:none">
+  <div class="done-card">
+    <span class="ico">✅</span>
+    <h2>Report submitted!</h2>
+    <p>Golu Ji &nbsp;·&nbsp; PPAP B-4 Kasna<br><span id="done-time"></span></p>
+  </div>
+  <div class="stats2">
+    <div class="sbox"><span class="val" id="done-run" style="color:#2d7a10">0</span><div class="lbl">Running</div></div>
+    <div class="sbox"><span class="val" id="done-no" style="color:#c0392b">0</span><div class="lbl">Not running</div></div>
+  </div>
+  <div class="sec-lbl">Vehicle wise</div>
+  <div class="rcpt" id="rcpt"></div>
+  <button class="edit-btn" onclick="doEdit()">Edit report</button>
+</div>
+
+<script>
+var SHEET_URL = "PASTE_APPS_SCRIPT_URL_HERE";
+
+var vehicles = [
+  'UP 16 MT 6090','UP 16 PT 8090','UP 16 DT 2490','UP 16 CT 5890',
+  'HR 38 AF 0690','HR 38 AF 0390','UP 16 CT 7090','UP 16 NT 8290',
+  'UP 16 NT 8190','DL 1L AM 0556','DL 1L AL 6804','DL 1L AL 1259',
+  'DL 1L AL 1214','UP 16 RT 6090','UP 16 RT 5090'
+];
+
+var REASONS = ['Breakdown','Maintenance','Driver absent','Accident','Off duty','Unknown'];
+var vStatus={}, vReason={}, vNote={};
+
+document.getElementById('dt').textContent =
+  new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+
+function buildList(){
+  var list=document.getElementById('vlist');
+  list.innerHTML='';
+  var cR=0,cN=0,cL=0;
+
+  for(var i=0;i<vehicles.length;i++){
+    (function(v,idx){
+      var s=vStatus[v]||'';
+      if(s==='run')cR++; else if(s==='no')cN++; else cL++;
+
+      var card=document.createElement('div');
+      card.className='vc'+(s==='run'?' ok':s==='no'?' bad':'');
+
+      var top=document.createElement('div');
+      top.className='vc-top';
+      top.innerHTML='<span class="vnum">'+v+'</span><span class="vidx">#'+idx+'</span>';
+      card.appendChild(top);
+
+      var row=document.createElement('div');
+      row.className='btn-row';
+
+      var b1=document.createElement('div');
+      b1.className='tbtn'+(s==='run'?' run':'');
+      b1.textContent=s==='run'?'✓ Running':'Running';
+      b1.onclick=(function(vv){return function(){vStatus[vv]='run';delete vReason[vv];buildList();};})(v);
+
+      var b2=document.createElement('div');
+      b2.className='tbtn'+(s==='no'?' nope':'');
+      b2.textContent=s==='no'?'✗ Not running':'Not running';
+      b2.onclick=(function(vv){return function(){vStatus[vv]='no';buildList();};})(v);
+
+      row.appendChild(b1);row.appendChild(b2);
+      card.appendChild(row);
+
+      if(s==='no'){
+        var rbox=document.createElement('div');
+        rbox.className='reasons-box open';
+
+        var rlbl=document.createElement('div');
+        rlbl.className='rlbl';
+        rlbl.innerHTML='Select reason <span style="color:#c0392b">*</span>';
+        rbox.appendChild(rlbl);
+
+        var rtags=document.createElement('div');
+        rtags.className='rtags';
+        for(var j=0;j<REASONS.length;j++){
+          (function(vv,reason){
+            var tag=document.createElement('div');
+            tag.className='rtag'+(vReason[vv]===reason?' on':'');
+            tag.textContent=reason;
+            tag.onclick=function(){vReason[vv]=reason;buildList();};
+            rtags.appendChild(tag);
+          })(v,REASONS[j]);
+        }
+        rbox.appendChild(rtags);
+
+        var ta=document.createElement('textarea');
+        ta.className='note-ta';ta.rows=2;
+        ta.placeholder='Optional note...';
+        ta.value=vNote[v]||'';
+        ta.onchange=(function(vv){return function(){vNote[vv]=this.value;};})(v);
+        rbox.appendChild(ta);
+        card.appendChild(rbox);
+      }
+      list.appendChild(card);
+    })(vehicles[i],i+1);
+  }
+
+  document.getElementById('cnt-run').textContent=cR;
+  document.getElementById('cnt-no').textContent=cN;
+  document.getElementById('cnt-left').textContent=cL;
+  var done=cR+cN;
+  document.getElementById('pbar').style.width=Math.round(done/15*100)+'%';
+  document.getElementById('plbl').textContent=done+' of 15 marked';
+  document.getElementById('subbtn').disabled=!vehicles.every(function(v){
+    return vStatus[v]==='run'||(vStatus[v]==='no'&&vReason[v]);
+  });
+}
+
+function doSubmit(){
+  var btn=document.getElementById('subbtn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span>Submitting...';
+  document.getElementById('err-box').style.display='none';
+  var now=new Date();
+  var ds=now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  var ts=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  var rows=vehicles.map(function(v){
+    return{date:ds,company:'PPAP B-4 Kasna',supervisor:'Golu Ji',
+      vehicle:v,status:vStatus[v]==='run'?'Running':'Not Running',
+      reason:vReason[v]||'',note:vNote[v]||'',time:ts};
+  });
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({sheet:'Golu Ji - PPAP B4 Kasna',rows:rows})
+  }).then(function(){showDone(ts,ds);})
+  .catch(function(){
+    document.getElementById('err-box').style.display='block';
+    btn.disabled=false;btn.innerHTML='Submit report to manager';
+  });
+}
+
+function showDone(ts,ds){
+  var r=vehicles.filter(function(v){return vStatus[v]==='run';}).length;
+  document.getElementById('done-run').textContent=r;
+  document.getElementById('done-no').textContent=vehicles.length-r;
+  document.getElementById('done-time').textContent=ts+' · '+ds;
+  document.getElementById('rcpt').innerHTML=vehicles.map(function(v){
+    var ok=vStatus[v]==='run';
+    return'<div class="rrow"><span class="rnum">'+v+'</span><div class="rright">'+
+      (!ok&&vReason[v]?'<span class="rreason">'+vReason[v]+'</span>':'')+
+      '<span class="badge '+(ok?'g':'r')+'">'+(ok?'Running':'No trip')+'</span></div></div>';
+  }).join('');
+  document.getElementById('form-view').style.display='none';
+  document.getElementById('done-view').style.display='block';
+}
+
+function doEdit(){
+  document.getElementById('done-view').style.display='none';
+  document.getElementById('form-view').style.display='block';
+  document.getElementById('subbtn').innerHTML='Submit report to manager';
+  buildList();
+}
+
+buildList();
+</script>
+</body>
+</html>
